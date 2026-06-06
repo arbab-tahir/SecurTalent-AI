@@ -41,16 +41,37 @@ The framework processes incoming binary document files through three decoupled v
 
 ### 1. Deterministic Contrast Ratio Auditor (`integrity_guard.py`)
 Intercepts raw PDF character primitives and fonts before flattening text layers. Using `pdfplumber`, the system extracts every glyph's `non_stroking_color` matrix and applies the **W3C Relative Luminance Formula**:
-\[\mathcal{L} = 0.2126R + 0.7152G + 0.0722B\]
-It evaluates the contrast ratio between the text and the canvas background. If the delta approaches 1:1, the system isolates the text segment and logs a **Sub-Visual Whitelisting Attack (SVWA)**—flagging attempts to bypass automated screeners via invisible keyword-stuffing.
+
+$$\mathcal{L} = 0.2126R + 0.7152G + 0.0722B$$
+
+The framework then computes the mathematical contrast ratio ($\mathcal{CR}$) between the extracted text glyph ($\mathcal{L}_1$) and the underlying document background canvas ($\mathcal{L}_2$) using the deterministic boundary rule:
+
+$$\mathcal{CR} = \frac{\mathcal{L}_1 + 0.05}{\mathcal{L}_2 + 0.05}$$
+
+If the computed ratio falls below the critical threshold ($\mathcal{CR} < 1.1$) within highly concentrated keyword zones, the system isolates the text coordinate and flags a **Sub-Visual Whitelisting Attack (SVWA)**.
 
 ### 2. Unsupervised Semantic Vector Space Mapper (`nlp_engine.py`)
-Eliminates primitive, easily manipulated keyword-counting rules. Text inputs are processed through a pre-trained bi-encoder neural network framework (`all-MiniLM-L6-v2`), transforming strings into dense 384-dimensional spatial coordinate vectors. The system computes contextual proximity utilizing **Angular Cosine Similarity Matrix Math**:
-\[\text{Similarity}(A, B) = \frac{A \cdot B}{\Vert{}A\Vert{} \Vert{}B\Vert{}}\]
-This ensures the system accurately maps conceptual equivalents (e.g., matching "Penetration Testing" with "Ethical Hacking") even if literal word profiles differ completely.
+Eliminates primitive, easily manipulated keyword-counting rules. Text inputs are processed through a pre-trained bi-encoder neural network framework (`all-MiniLM-L6-v2`), transforming unstructured text strings into dense 384-dimensional spatial coordinate vectors. The system evaluates the deep contextual proximity between the document vector ($A$) and the requirement vector ($B$) utilizing **Angular Cosine Similarity Matrix Math**:
+
+$$\text{Similarity}(A, B) = \frac{A \cdot B}{\|A\| \|B\|} = \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \sqrt{\sum_{i=1}^{n} B_i^2}}$$
+
+This mathematical mapping ensures that conceptual equivalents are matched accurately, regardless of literal spelling variations.
 
 ### 3. Asynchronous Identity & Provenance Engine (`provenance_audit.py`)
-Programmatically cross-references asserted resume claims with live external records. The engine deploys regular expression matching networks to safely isolate public platform handles and triggers non-blocking asynchronous REST requests to fetch public user metadata repositories. It calculates an **Authenticity Confidence Coefficient (\(C_a\))** to score profile inflation risks based on historical code recency and language distribution matches.
+Programmatically cross-references asserted resume claims with live external records. The engine deploys regular expression matching networks to safely isolate public platform handles and triggers non-blocking asynchronous REST requests to fetch public user metadata repositories. It calculates an **Authenticity Confidence Coefficient ($C_a$)** to score profile inflation risks based on historical code recency and language distribution matches.
+
+### 4. Multi-Layer Mathematical Fusion Engine (`fusion_engine.py`)
+The system synthesizes the metrics from the defensive, semantic, and identity modules into a unified evaluation matrix by calculating an empirical **Authenticity Coefficient ($C_a$)**:
+
+$$C_a = w_1(S_{\text{similarity}}) + w_2(G_{\text{provenance}})$$
+
+Where $w_1$ and $w_2$ represent assigned operational weight parameters balancing semantic alignment and verified code provenance records, subjected to the constraint:
+
+$$\sum_{i} w_i = 1.0$$
+
+If Layer 1 triggers a security violation ($CR < 1.1$), a severe dynamic adversarial penalty factor ($P_{adv} = 0.20$) is applied multiplicatively to the model:
+
+$$C_{\text{final}} = C_a \times P_{adv}$$
 
 ---
 
@@ -68,7 +89,7 @@ Programmatically cross-references asserted resume claims with live external reco
 ## 📂 Repository Directory Matrix
 
 ```text
-securtalent-framework/
+SecurTalent-AI/
 ├── core/
 │   ├── __init__.py
 │   ├── integrity_guard.py   # Layer 1: Contrast ratio & glyph metadata audits
