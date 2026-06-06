@@ -60,7 +60,7 @@ This mathematical mapping ensures that conceptual equivalents are matched accura
 ### 3. Asynchronous Identity & Provenance Engine (`provenance_audit.py`)
 Programmatically cross-references asserted resume claims with live external records. The engine deploys regular expression matching networks to safely isolate public platform handles and triggers non-blocking asynchronous REST requests to fetch public user metadata repositories. It calculates an **Authenticity Confidence Coefficient ($C_a$)** to score profile inflation risks based on historical code recency and language distribution matches.
 
-### 4. Multi-Layer Mathematical Fusion Engine (`fusion_engine.py`)
+### 4. Multi-Layer Mathematical Fusion Engine (`pipeline/fusion_engine.py`)
 The system synthesizes the metrics from the defensive, semantic, and identity modules into a unified evaluation matrix by calculating an empirical **Authenticity Coefficient ($C_a$)**:
 
 $$C_a = w_1(S_{\text{similarity}}) + w_2(G_{\text{provenance}})$$
@@ -80,7 +80,7 @@ $$C_{\text{final}} = C_a \times P_{adv}$$
 - **Runtime Backplane:** Python 3.10+
 - **Document Rendering Object Inspector:** `pdfplumber`
 - **Neural Network Transformers:** `sentence-transformers` (Local CPU-Optimized)
-- **Mathematical Array Arrays:** `NumPy` & `pandas`
+- **Mathematical Analysis Packages:** `NumPy` & `pandas`
 - **Asynchronous Network Interface:** `requests` & `urllib3`
 - **Researcher Console Layer:** `Streamlit`
 
