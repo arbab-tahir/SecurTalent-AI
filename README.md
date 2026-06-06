@@ -1,4 +1,4 @@
-# SecurTalent AI: Advanced Document Pipeline Integrity & Trust Verification Framework 🛡️
+# SecurTalent-AI: A Deterministic Framework for Mitigating Adversarial Sub-Visual Injections and Semantic Spoofing in Automated Document Pipelines 🛡️
 
 SecurTalent AI is an enterprise-grade, security-aware talent intelligence framework engineered to treat unstructured document intake streams as unverified, potentially adversarial data vectors. 
 
