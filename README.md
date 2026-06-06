@@ -1,56 +1,102 @@
-# SecurTalent Framework
+# SecurTalent AI: Advanced Document Pipeline Integrity & Trust Verification Framework 🛡️
 
-**A Deterministic Defense Framework Against Sub-Visual Whitelisting and Semantic Injection Attacks in Automated Document Parsing Pipelines via Low-Level Object Metadata Auditing and Vector Space Similarity Mapping**
+SecurTalent AI is an enterprise-grade, security-aware talent intelligence framework engineered to treat unstructured document intake streams as unverified, potentially adversarial data vectors. 
+
+While legacy automated parsing applications blindly accept raw file data—leaving them vulnerable to manipulation—SecurTalent AI implements a deterministic multi-layer defense pipeline. The platform combines low-level document metadata auditing to catch sub-visual text manipulation with unsupervised deep learning vector space mapping to achieve contextual semantic alignment completely independent of literal keyword matches.
 
 ---
 
-## Overview
+## 🏗️ System Architecture & Data Pipeline
 
-SecurTalent is an academic research prototype that detects and neutralizes adversarial content hidden within PDF documents before they enter automated parsing pipelines (e.g., resume screeners, document intake systems, RAG ingestion flows).
+The framework processes incoming binary document files through three decoupled verification layers before fusing the metrics into an empirical output matrix:
 
-## Threat Model
-
-This framework addresses three primary attack surfaces:
-
-### 1. Sub-Visual Whitelisting Attacks
-Adversaries embed text rendered at near-zero contrast (e.g., white-on-white, `#fefefe` on `#ffffff`) to inject keywords, skills, or credentials that are invisible to human reviewers but parsed and indexed by automated systems. The framework detects these by computing **W3C relative luminance** and **WCAG 2.1 contrast ratios** at the individual glyph level, flagging any character whose contrast ratio against the page background falls below a configurable threshold.
-
-### 2. Semantic Injection Attacks
-Attackers craft prompt-like or instruction-like payloads within documents designed to manipulate downstream NLP models, LLM-based extractors, or classification pipelines. SecurTalent employs **vector space similarity mapping** using sentence-level embeddings to measure the semantic distance between document segments and known adversarial prompt templates, flagging segments that fall within a suspicious similarity radius.
-
-### 3. Provenance Spoofing
-Malicious actors tamper with PDF metadata fields (author, creator, producer, modification dates) to fabricate document provenance, bypass origin-based trust checks, or evade forensic attribution. The framework audits raw PDF metadata objects and cross-references structural markers to detect inconsistencies indicative of forgery.
-
-## Architecture
-
+```text
+[ Input: Untrusted Resume PDF ] ──► [ Input: Job Requirement Matrix ]
+               │                                    │
+               ▼                                    ▼
+┌───────────────────────────────┐    ┌───────────────────────────────┐
+│    Layer 1: Integrity Guard   │    │     Layer 2: Semantic NLP     │
+│ (Sub-Visual Manipulation Check)    │  (Bi-Encoder Vector Mapping)  │
+└───────────────┬───────────────┘    └───────────────┬───────────────┘
+                │                                    │
+                ▼                                    ▼
+┌────────────────────────────────────────────────────────────────────┐
+│               Layer 3: Asynchronous Identity Attestation           │
+│         (Pings Public REST APIs ──► Core Language Verification)    │
+└────────────────────────────────┬───────────────────────────────────┘
+                                 │
+                                 ▼
+┌────────────────────────────────────────────────────────────────────┐
+│                Multi-Layer Mathematical Fusion Engine              │
+│             (Calculates Authenticity Coefficient: Ca)              │
+└────────────────────────────────┬───────────────────────────────────┘
+                                 │
+                                 ▼
+         [ Streamlit Unified Recruiter Evaluation Console ]
 ```
+
+---
+
+## 🧱 Core Engineering Modules
+
+### 1. Deterministic Contrast Ratio Auditor (`integrity_guard.py`)
+Intercepts raw PDF character primitives and fonts before flattening text layers. Using `pdfplumber`, the system extracts every glyph's `non_stroking_color` matrix and applies the **W3C Relative Luminance Formula**:
+\[\mathcal{L} = 0.2126R + 0.7152G + 0.0722B\]
+It evaluates the contrast ratio between the text and the canvas background. If the delta approaches 1:1, the system isolates the text segment and logs a **Sub-Visual Whitelisting Attack (SVWA)**—flagging attempts to bypass automated screeners via invisible keyword-stuffing.
+
+### 2. Unsupervised Semantic Vector Space Mapper (`nlp_engine.py`)
+Eliminates primitive, easily manipulated keyword-counting rules. Text inputs are processed through a pre-trained bi-encoder neural network framework (`all-MiniLM-L6-v2`), transforming strings into dense 384-dimensional spatial coordinate vectors. The system computes contextual proximity utilizing **Angular Cosine Similarity Matrix Math**:
+\[\text{Similarity}(A, B) = \frac{A \cdot B}{\Vert{}A\Vert{} \Vert{}B\Vert{}}\]
+This ensures the system accurately maps conceptual equivalents (e.g., matching "Penetration Testing" with "Ethical Hacking") even if literal word profiles differ completely.
+
+### 3. Asynchronous Identity & Provenance Engine (`provenance_audit.py`)
+Programmatically cross-references asserted resume claims with live external records. The engine deploys regular expression matching networks to safely isolate public platform handles and triggers non-blocking asynchronous REST requests to fetch public user metadata repositories. It calculates an **Authenticity Confidence Coefficient (\(C_a\))** to score profile inflation risks based on historical code recency and language distribution matches.
+
+---
+
+## 💻 Technical Stack & Dependencies
+
+- **Runtime Backplane:** Python 3.10+
+- **Document Rendering Object Inspector:** `pdfplumber`
+- **Neural Network Transformers:** `sentence-transformers` (Local CPU-Optimized)
+- **Mathematical Array Arrays:** `NumPy` & `pandas`
+- **Asynchronous Network Interface:** `requests` & `urllib3`
+- **Researcher Console Layer:** `Streamlit`
+
+---
+
+## 📂 Repository Directory Matrix
+
+```text
 securtalent-framework/
-├── core/                    # Detection engines
-│   ├── integrity_guard.py   # Sub-visual attack detection (contrast auditing)
-│   ├── nlp_engine.py        # Semantic injection detection (embedding similarity)
-│   └── provenance_audit.py  # Metadata provenance verification
+├── core/
+│   ├── __init__.py
+│   ├── integrity_guard.py   # Layer 1: Contrast ratio & glyph metadata audits
+│   ├── nlp_engine.py        # Layer 2: Sentence Transformers & vector similarity loops
+│   └── provenance_audit.py  # Layer 3: Live public REST API connection matrix
 ├── pipeline/
-│   └── fusion_engine.py     # Multi-signal fusion and scoring
+│   ├── __init__.py
+│   └── fusion_engine.py     # Aggregates analytical metrics to compute Ca index
 ├── interface/
-│   └── dashboard.py         # Streamlit-based analysis dashboard
-├── research/
-│   ├── datasets/            # Evaluation corpora (adversarial + benign)
-│   └── evaluation_bench.py  # Benchmarking and metric computation
-├── requirements.txt
-└── README.md
+│   └── dashboard.py         # Streamlit visual metrics display pipeline
+├── requirements.txt         # Verified deployment configuration dependencies
+└── README.md                # Framework documentation & technical summary
 ```
 
-## Status
+---
 
-🔬 **Academic prototype** — not intended for production deployment. This software is provided for research and educational purposes under the terms of the accompanying license.
+## 🚀 Local Deployment & Verification
 
-## Getting Started
-
-```bash
-pip install -r requirements.txt
-python -m core.integrity_guard   # Run Module 1 self-test
-```
-
-## Citation
-
-If you use this framework in academic work, please cite the accompanying paper (forthcoming).
+1. Clone the core research repository infrastructure:
+   ```bash
+   git clone https://github.com/arbab-tahir/SecurTalent-AI.git
+   cd SecurTalent-AI
+   ```
+2. Provision dependencies inside a localized virtual sandbox:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Initialize the visual evaluation console:
+   ```bash
+   streamlit run interface/dashboard.py
+   ```
