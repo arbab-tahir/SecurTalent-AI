@@ -1,4 +1,24 @@
-streamlit==1.40.0
+# SecurTalent-AI – Verified Deployment Configuration Dependencies
+# ================================================================
+# Core runtime dependencies for all four detection layers.
+
+# Layer 1: Document Rendering Object Inspector
 pdfplumber==0.11.4
+
+# Layer 2: Neural Network Transformers (CPU-Optimized)
+# Note: sentence-transformers requires PyTorch. If PyTorch fails to
+# install or crashes on your platform (e.g. Python 3.14), the NLP
+# engine will automatically activate the zero-dependency mathematical
+# fallback engine. Uncomment the lines below if your environment
+# supports PyTorch:
+# sentence-transformers==3.0.1
+# torch==2.3.0
+
+# Layer 2 Fallback + Mathematical Analysis
+numpy>=1.26.0
+
+# Layer 3: Asynchronous Network Interface (REST API Transport)
 requests==2.32.3
 
+# Layer 5: Researcher Console Layer
+streamlit==1.40.0

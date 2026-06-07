@@ -1,3 +1,30 @@
+# Python bytecode and caches
 __pycache__/
 *.pyc
+*.pyo
+
+# Virtual environments
+venv/
+ven/
+.venv/
+
+# Environment and secrets
 .env
+.env.*
+
+# IDE / Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS artifacts
+Thumbs.db
+.DS_Store
+
+# Temporary debug/output files
+*.txt
+!requirements.txt
+
+# Test PDFs
+*.pdf
